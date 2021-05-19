@@ -25,10 +25,6 @@ jobs:
         with:
           php_version: 7.4
           command: install
-          interaction: no
-          dev: yes
-          progress: no
-          quiet: no
 
       - name: RSYNC to WPE Dev
         uses: easingthemes/ssh-deploy@v2.1.5
@@ -39,4 +35,4 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: "~/sites/atlasstartdev/wp-content/plugins"
-          EXCLUDE: "/dist/, /node_modules/"
+          EXCLUDE: "/.git/, /cache/, /uploads/, /upgrade/, /languages/, /node_modules/, auth.json, package.json, package-lock.json, docker_tag, output.log, composer.json, composer.lock, debug.log, .env, mysql.sql, README.md"

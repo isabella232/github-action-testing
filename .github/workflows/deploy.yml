@@ -35,4 +35,4 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: "~/sites/atlasstartdev/wp-content/plugins"
-          EXCLUDE: "/.git/, /cache/, /uploads/, /upgrade/, /languages/, /node_modules/, auth.json, package.json, package-lock.json, docker_tag, output.log, composer.json, composer.lock, debug.log, .env, mysql.sql, README.md"
+          EXCLUDE: ".git/, cache/, uploads/, upgrade/, languages/, node_modules/, auth.json, package.json, package-lock.json, docker_tag, output.log, composer.json, composer.lock, debug.log, .env, mysql.sql, README.md"

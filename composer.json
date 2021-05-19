@@ -1,0 +1,49 @@
+{
+  "name": "webdevstudios/github-action-testing",
+  "description": "A sandbox for testing Github Actions.",
+  "type": "project",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "WebDevStudios",
+      "email": "contact@webdevstudios.com"
+    }
+  ],
+  "config": {
+    "platform": {
+      "php": "7.4"
+    }
+  },
+  "extra": {
+    "installer-paths": {
+      "{$name}/": [
+        "type:wordpress-plugin",
+        "wpe/headless"
+      ]
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org/"
+    },
+    {
+      "type": "package",
+      "package": {
+        "type": "wordpress-plugin",
+        "name": "wpe/wpe-headless",
+        "version": "0.5.4",
+        "dist": {
+          "type": "zip",
+          "url": "https://wp-product-info.wpesvc.net/v1/plugins/wpe-headless?download"
+        }
+      }
+    }
+  ],
+  "require": {
+    "composer/installers": "~1.0",
+    "pristas-peter/wp-graphql-gutenberg": "^0.3.8",
+    "wpackagist-plugin/wp-graphql": "^1.3",
+    "wpe/wpe-headless": "^0.5.4"
+  }
+}

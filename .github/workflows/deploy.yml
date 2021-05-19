@@ -1,0 +1,42 @@
+name: Deploy to WPE Dev
+
+on:
+  push:
+    branches:
+      - develop
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: /tmp/composer-cache
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+
+      - name: Composer install dependencies
+        uses: php-actions/composer@v5
+        with:
+          php_version: 7.4
+          command: install
+          interaction: no
+          dev: yes
+          progress: no
+          quiet: no
+
+      - name: RSYNC to WPE Dev
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: ""
+          SOURCE: "./"
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: "~/sites/atlasstartdev/wp-content/plugins"
+          EXCLUDE: "/dist/, /node_modules/"

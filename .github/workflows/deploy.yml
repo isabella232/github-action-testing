@@ -27,7 +27,7 @@ jobs:
           command: install
 
       - name: RSYNC to WPE Dev
-        uses: easingthemes/ssh-deploy@v2.1.5
+        uses: easingthemes/ssh-deploy@v2
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
           ARGS: "-v -a -z --delete"

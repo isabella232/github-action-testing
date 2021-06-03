@@ -1,0 +1,33 @@
+{
+  "name": "webdevstudios/wd_s",
+  "description": "A sandbox for testing Github Actions.",
+  "type": "project",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "WebDevStudios",
+      "email": "contact@webdevstudios.com"
+    }
+  ],
+  "config": {
+    "platform": {
+      "php": "7.4"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    },
+    {
+      "type": "composer",
+      "url": "https://packages.wdslab.com"
+    }
+  ],
+  "require": {
+    "composer/installers": "^1.11.0",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
+    "phpcompatibility/phpcompatibility-wp": "^2.1.1",
+    "wp-coding-standards/wpcs": "^2.3.0"
+  }
+}

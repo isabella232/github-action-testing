@@ -47,7 +47,11 @@ jobs:
           restore-keys: ${{ runner.OS }}-composer-
 
       - name: Install Composer dependencies
-        run: composer install
+        run: |
+          cd plugins/wds-foo-plugin/
+          composer install
+          cd ../../themes/wd_s
+          composer install
 
       - name: Install Node dependencies
         run: npm ci

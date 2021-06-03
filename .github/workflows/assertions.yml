@@ -13,30 +13,53 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x]
+        php-versions: ["7.4"]
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          token: ${{ github.token }}
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Setup PHP ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: composer:v2, phpcs
+
+      - name: Setup Node ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Cache dependencies
+      - name: Cache Node dependencies
         uses: actions/cache@v2
         with:
           path: ~/.npm
           key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.OS }}-node-
-            ${{ runner.OS }}-
+          restore-keys: ${{ runner.OS }}-node-
 
-      - name: Install dependencies
-        run: npm i --legacy-peer-deps
+      - name: Cache Composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: /tmp/composer-cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.OS }}-composer-
 
-      - name: Lint JavaScript
-        run: npx eslint ./ --config=.eslintrc.js --no-color --env-info
+      - name: Install Composer dependencies
+        run: composer install
 
-      - name: Lint CSS
-        run: npx stylelint '**/*.css' --config=stylelint.config.js --no-color --version
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Lint plugin
+        run: phpcs './plugins/wds-foo-plugin/' --standard=./plugins/wds-foo-plugin/.phpcs.xml --extensions=php --ignore='*/node_modules/*,*/vendor/*' --report=summary,source
+
+      - name: Lint theme php
+        run: phpcs './themes/wd_s/' --standard=./themes/wd_s/.phpcs.xml --extensions=php --ignore='*/node_modules/*,*/vendor/*' --report=summary,source
+
+      - name: Lint theme scripts
+        run: npx eslint './themes/wd_s/**/*.{js,ts,jsx,tsx}' --config=.eslintrc.js
+
+      - name: Lint theme styles
+        run: npx stylelint './themes/wd_s/**/*.{css,scss}' --config=.stylelintrc.json

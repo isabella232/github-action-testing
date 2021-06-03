@@ -60,10 +60,14 @@ jobs:
         run: npm ci
 
       - name: Lint plugin
-        run: phpcs './plugins/wds-foo-plugin/' --standard=./plugins/wds-foo-plugin/.phpcs.xml --extensions=php --ignore='*/node_modules/*,*/vendor/*' --report=summary,source
+        run: |
+          cd plugins/wds-foo-plugin/
+          vendor/bin/phpcs --standard=.phpcs.xml --report=summary,source
 
       - name: Lint theme php
-        run: phpcs './themes/wd_s/' --standard=./themes/wd_s/.phpcs.xml --extensions=php --ignore='*/node_modules/*,*/vendor/*' --report=summary,source
+        run: |
+          cd ../../themes/wd_s/
+          vendor/bin/phpcs --standard=.phpcs.xml --report=summary,source
 
       - name: Lint theme scripts
         run: npx eslint './themes/wd_s/**/*.{js,ts,jsx,tsx}' --config=.eslintrc.js

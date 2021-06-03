@@ -59,12 +59,12 @@ jobs:
       - name: Install Node dependencies
         run: npm ci
 
-      - name: Lint plugin
+      - name: Sniff plugin PHP
         run: |
           cd plugins/wds-foo-plugin/
           vendor/bin/phpcs --standard=.phpcs.xml --report=summary,source
 
-      - name: Lint theme php
+      - name: Sniff theme PHP
         run: |
           cd ../../themes/wd_s/
           vendor/bin/phpcs --standard=.phpcs.xml --report=summary,source

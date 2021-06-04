@@ -1,5 +1,15 @@
 <?php
 /**
+ * File Doc Comment
+ *
+ * @category  MyFile
+ * @package   MyPackage
+ * @author    A N Other
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.webdevstudios.com
+ */
+
+/**
  * Plugin Name: WDS Foo Plugin
  * Plugin URI:  https://webdevstudios.com
  * Description: A cool plugin that does stuff.
@@ -9,9 +19,8 @@
  * Domain:      wds-foo-plugin
  * License:     GPLv2
  */
-
-function badFunctionName(){
- $MYARRAY = array(
-     'key'=>'value'
- )
+function good_function_name() {
+	$my_array = [
+		'key' => 'value',
+	];
 }

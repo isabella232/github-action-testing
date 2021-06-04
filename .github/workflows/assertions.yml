@@ -49,28 +49,25 @@ jobs:
       - name: Authorize Composer with WDS packagist server
         run: echo '${{ secrets.COMPOSER_AUTH }}' > $GITHUB_WORKSPACE/auth.json
 
-      - name: Install Composer dependencies
+      - name: Install Plugin dependencies
         run: |
           cd plugins/wds-foo-plugin/
           composer install
-          cd ../../themes/wd_s
-          composer install
-
-      - name: Install Node dependencies
-        run: npm ci
 
       - name: Sniff plugin PHP
+        run: vendor/bin/phpcs --standard=.phpcs.xml --report=summary,source
+
+      - name: Install Theme dependencies
         run: |
-          cd plugins/wds-foo-plugin/
-          vendor/bin/phpcs --standard=.phpcs.xml --report=summary,source
+          cd ../../themes/wd_s
+          composer install
+          npm ci
 
       - name: Sniff theme PHP
-        run: |
-          cd ../../themes/wd_s/
-          vendor/bin/phpcs --standard=.phpcs.xml --report=summary,source
+        run: vendor/bin/phpcs --standard=.phpcs.xml --report=summary,source
 
       - name: Lint theme scripts
-        run: npx eslint './themes/wd_s/**/*.{js,ts,jsx,tsx}' --config=.eslintrc.js
+        run: npx eslint '**/*.{js,ts,jsx,tsx}' --config=.eslintrc.js
 
       - name: Lint theme styles
-        run: npx stylelint './themes/wd_s/**/*.{css,scss}' --config=.stylelintrc.json
+        run: npx stylelint '**/*.{css,scss}"'--config=.stylelintrc.json

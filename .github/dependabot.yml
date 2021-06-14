@@ -1,7 +1,12 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    directory: "/"
+    directory: "/themes/wd_s"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+  - package-ecosystem: "composer"
+    directory: "/themes/wd_s"
     schedule:
       interval: "weekly"
       day: "monday"

@@ -1,8 +1,8 @@
-name: Assertions
+name: Assertions - Plugin
 
 on:
   pull_request:
-    branches: [main, develop]
+    branches: main
 
   workflow_dispatch:
 
@@ -46,28 +46,29 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.OS }}-composer-
 
-      - name: Authorize Composer with WDS packagist server
+      - name: Authorize Composer with WDS packagist
         run: echo '${{ secrets.COMPOSER_AUTH }}' > $GITHUB_WORKSPACE/auth.json
 
-      - name: Install Plugin dependencies
-        run: |
-          cd plugins/wds-foo-plugin/
-          composer install
+      - name: Change directories
+        run: cd plugins/wds-foo-plugin
 
-      - name: Sniff plugin PHP
-        run: vendor/bin/phpcs --standard=.phpcs.xml --report=summary,source
+      - name: Install Composer dependencies
+        run: composer install
 
-      - name: Install Theme dependencies
-        run: |
-          cd ../../themes/wd_s
-          composer install
-          npm ci
+      - name: Install Node dependencies
+        run: npm ci
 
-      - name: Sniff theme PHP
-        run: vendor/bin/phpcs --standard=.phpcs.xml --report=summary,source
+      - name: Lint PHP
+        run: npm run lint:php
 
-      - name: Lint theme scripts
-        run: npx eslint '**/*.{js,ts,jsx,tsx}' --config=.eslintrc.js
+      - name: Lint scripts
+        run: npm run lint:js
 
-      - name: Lint theme styles
-        run: npx stylelint '**/*.{css,scss}"'--config=.stylelintrc.json
+      - name: Lint styles
+        run: npm run lint:css
+
+      - name: Lint markdown
+        run: npm run lint:md
+
+      - name: Lint package.json
+        run: npm run lint:pkg-json

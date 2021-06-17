@@ -15,8 +15,6 @@ jobs:
       matrix:
         node-version: [14.x]
 
-    runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2

@@ -1,0 +1,25 @@
+{
+  "name": "github-action-testing",
+  "version": "1.0.0",
+  "description": "A sandbox for testing Github Actions.",
+  "main": "index.js",
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WebDevStudios/github-action-testing.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WebDevStudios/github-action-testing/issues"
+  },
+  "homepage": "https://github.com/WebDevStudios/github-action-testing#readme"
+}

@@ -36,7 +36,6 @@ jobs:
       - name: Setup additional dependencies
         run: |
           npm i -g npm@latest
-          sudo apt-get install zip -qy
           echo '${{ secrets.COMPOSER_AUTH }}' > $GITHUB_WORKSPACE/auth.json
 
       - name: Cache Node dependencies
@@ -56,16 +55,11 @@ jobs:
       - name: Install Composer dependencies
         run: composer install
 
-      - name: Install Node dependencies
+      - name: Install Node dependencies and build
         run: npm ci
 
       - name: Create downloadable zip
-        run: zip wd_s.zip * -r -x node_modules/, vendor/, .git/
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: wd_s
-          path: project.zip
+        run: zip -r wd_s.zip * -x node_modules/ vendor/ .git/
 
       # - name: Rsync to WPE Dev
       #   uses: easingthemes/ssh-deploy@v2

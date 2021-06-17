@@ -36,7 +36,7 @@ jobs:
       - name: Setup additional dependencies
         run: |
           npm i -g npm@latest
-          apt-get install zip -qy
+          sudo apt-get install zip -qy
           echo '${{ secrets.COMPOSER_AUTH }}' > $GITHUB_WORKSPACE/auth.json
 
       - name: Cache Node dependencies

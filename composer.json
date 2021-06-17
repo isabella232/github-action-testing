@@ -1,0 +1,15 @@
+{
+    "name": "webdevstudios/github-action-testing",
+    "description": "A safe space to test Github Actions.",
+    "type": "project",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "WebDevStudios",
+            "email": "contact@webdevstudios.com"
+        }
+    ],
+    "require": {
+        "composer/composer": "^2.1"
+    }
+}

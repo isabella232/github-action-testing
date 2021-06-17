@@ -59,7 +59,7 @@ jobs:
         run: npm ci
 
       - name: Create downloadable zip
-        run: zip -r wd_s.zip * -x node_modules/ vendor/ .git/
+        run: zip -r wd_s.zip * -x node_modules/\* -x vendor/\* -x .git/\*
 
       # - name: Rsync to WPE Dev
       #   uses: easingthemes/ssh-deploy@v2

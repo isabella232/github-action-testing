@@ -1,0 +1,75 @@
+name: Publish WordPress Plugins
+
+on:
+  push:
+    branches:
+      - canary
+
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-versions: ["7.4"]
+        plugins: ["wds-foo-plugin"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          token: ${{ github.token }}
+
+      - name: Setup PHP ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: composer:v2
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: /tmp/composer-cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.OS }}-composer-
+
+      - name: Authorize Composer with WDS packagist
+        run: echo '${{ secrets.COMPOSER_AUTH }}' > $GITHUB_WORKSPACE/auth.json
+
+  test:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test ${{ matrix.plugins }}
+        run: |
+          cd plugins/${{ matrix.plugins }}
+          composer install --quiet
+
+      - name: Lint
+        run: composer run lint
+
+  bundle:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Bundle ${{ matrix.plugins }}
+        run: |
+          cd plugins/${{ matrix.plugins }}
+          zip * -r -x node_modules/\* -x vendor/\* -x .git/\* -O ../${{ matrix.plugins }}.zip
+
+  publish:
+    needs: bundle
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish to public server
+        uses: easingthemes/ssh-deploy@v2
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.REMOTE_PRIVATE_KEY }}
+          ARGS: "-v -a -z --delete"
+          SOURCE: "./plugins/*.zip"
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_PATH }}
+          EXCLUDE: ".git/,node_modules/,vendor/"
